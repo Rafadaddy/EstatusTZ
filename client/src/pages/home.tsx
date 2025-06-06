@@ -28,8 +28,8 @@ const componentTitles: Record<string, string> = {
 export default function Home() {
   const [unitNumber, setUnitNumber] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
-  const [componentFilter, setComponentFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [componentFilter, setComponentFilter] = useState("all");
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -154,7 +154,7 @@ export default function Home() {
 
       // Component filter
       let matchesComponent = true;
-      if (componentFilter) {
+      if (componentFilter && componentFilter !== "all") {
         matchesComponent = unit[componentFilter as keyof BusUnit] === "taller";
       }
 
@@ -319,7 +319,7 @@ export default function Home() {
                   <SelectValue placeholder="Todos los estados" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Todos los estados</SelectItem>
+                  <SelectItem value="all">Todos los estados</SelectItem>
                   <SelectItem value="ready">Solo listos</SelectItem>
                   <SelectItem value="workshop">En taller</SelectItem>
                   <SelectItem value="partial">Mantenimiento parcial</SelectItem>
@@ -330,7 +330,7 @@ export default function Home() {
                   <SelectValue placeholder="Todos los componentes" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Todos los componentes</SelectItem>
+                  <SelectItem value="all">Todos los componentes</SelectItem>
                   {componentNames.map(comp => (
                     <SelectItem key={comp} value={comp}>{componentTitles[comp]}</SelectItem>
                   ))}
