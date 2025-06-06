@@ -236,24 +236,24 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Navigation */}
+      {/* Compact Header */}
       <nav className="bg-blue-600 shadow-lg">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4">
+          <div className="flex items-center justify-between h-12 sm:h-16">
             <div className="flex items-center">
-              <Bus className="h-8 w-8 text-white mr-2" />
-              <span className="text-white font-semibold text-lg">Sistema de Gestión de Unidades</span>
+              <Bus className="h-6 w-6 sm:h-8 sm:w-8 text-white mr-2" />
+              <span className="text-white font-semibold text-sm sm:text-lg">Gestión de Unidades</span>
             </div>
-            <div className="flex space-x-2">
-              <Button variant="outline" size="sm" onClick={exportToCSV} className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-                <Download className="h-4 w-4 mr-1" />
-                Exportar CSV
+            <div className="flex space-x-1 sm:space-x-2">
+              <Button variant="outline" size="sm" onClick={exportToCSV} className="bg-white/10 border-white/20 text-white hover:bg-white/20 text-xs sm:text-sm px-2 sm:px-3">
+                <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                <span className="hidden sm:inline">CSV</span>
               </Button>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button variant="outline" size="sm" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-                    <Trash2 className="h-4 w-4 mr-1" />
-                    Limpiar Todo
+                  <Button variant="outline" size="sm" className="bg-white/10 border-white/20 text-white hover:bg-white/20 text-xs sm:text-sm px-2 sm:px-3">
+                    <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                    <span className="hidden sm:inline">Limpiar</span>
                   </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
@@ -276,106 +276,92 @@ export default function Home() {
         </div>
       </nav>
 
-      <div className="container mx-auto px-4 py-8">
-        {/* Statistics Dashboard */}
-        <Card className="mb-8 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-          <CardContent className="p-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 py-2 sm:py-4">
+        {/* Compact Statistics */}
+        <Card className="mb-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+          <CardContent className="p-3 sm:p-4">
+            <div className="grid grid-cols-4 gap-2 sm:gap-4 text-center">
               <div>
-                <h3 className="text-2xl font-bold mb-1">{stats.totalUnits}</h3>
-                <p className="text-sm opacity-90">Total Unidades</p>
+                <h3 className="text-lg sm:text-2xl font-bold mb-1">{stats.totalUnits}</h3>
+                <p className="text-xs sm:text-sm opacity-90">Total</p>
               </div>
               <div>
-                <h3 className="text-2xl font-bold mb-1 text-green-200">{stats.readyUnits}</h3>
-                <p className="text-sm opacity-90">Unidades Listas</p>
+                <h3 className="text-lg sm:text-2xl font-bold mb-1 text-green-200">{stats.readyUnits}</h3>
+                <p className="text-xs sm:text-sm opacity-90">Listos</p>
               </div>
               <div>
-                <h3 className="text-2xl font-bold mb-1 text-yellow-200">{stats.partialUnits}</h3>
-                <p className="text-sm opacity-90">En Mantenimiento</p>
+                <h3 className="text-lg sm:text-2xl font-bold mb-1 text-yellow-200">{stats.partialUnits}</h3>
+                <p className="text-xs sm:text-sm opacity-90">Parcial</p>
               </div>
               <div>
-                <h3 className="text-2xl font-bold mb-1 text-red-200">{stats.workshopUnits}</h3>
-                <p className="text-sm opacity-90">En Taller</p>
+                <h3 className="text-lg sm:text-2xl font-bold mb-1 text-red-200">{stats.workshopUnits}</h3>
+                <p className="text-xs sm:text-sm opacity-90">Taller</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Search and Filter Controls */}
-        <Card className="mb-6">
-          <CardContent className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <Input
-                  placeholder="Buscar por número de unidad..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Todos los estados" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todos los estados</SelectItem>
-                  <SelectItem value="ready">Solo listos</SelectItem>
-                  <SelectItem value="workshop">En taller</SelectItem>
-                  <SelectItem value="partial">Mantenimiento parcial</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select value={componentFilter} onValueChange={setComponentFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Todos los componentes" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todos los componentes</SelectItem>
-                  {componentNames.map(comp => (
-                    <SelectItem key={comp} value={comp}>{componentTitles[comp]}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Add Unit Form */}
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <Plus className="h-5 w-5 mr-2 text-blue-600" />
-              Agregar Nueva Unidad
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="unit-number">Número de Unidad *</Label>
-                <div className="relative mt-1">
-                  <Hash className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+        {/* Compact Controls */}
+        <Card className="mb-3">
+          <CardContent className="p-3 sm:p-4">
+            <div className="space-y-3">
+              {/* Add Unit Row */}
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <Hash className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <Input
-                    id="unit-number"
                     type="number"
                     min="1"
                     max="9999"
-                    placeholder="Ej: 101"
+                    placeholder="Número de unidad"
                     value={unitNumber}
                     onChange={(e) => setUnitNumber(e.target.value)}
-                    className="pl-10"
+                    className="pl-8 h-9"
                   />
                 </div>
-                <p className="text-sm text-gray-500 mt-1">Ingrese un número único para identificar la unidad.</p>
-              </div>
-              <div className="flex items-end">
                 <Button 
                   onClick={handleAddUnit} 
                   disabled={createUnitMutation.isPending}
-                  className="w-full h-12 bg-blue-600 hover:bg-blue-700"
+                  className="h-9 bg-blue-600 hover:bg-blue-700 px-3 sm:px-6"
                 >
-                  <Plus className="h-4 w-4 mr-2" />
-                  {createUnitMutation.isPending ? "Agregando..." : "Agregar Unidad"}
+                  <Plus className="h-4 w-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">Agregar</span>
                 </Button>
+              </div>
+              
+              {/* Search and Filters Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div className="relative">
+                  <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <Input
+                    placeholder="Buscar..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-8 h-9"
+                  />
+                </div>
+                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                  <SelectTrigger className="h-9">
+                    <SelectValue placeholder="Estado" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todos</SelectItem>
+                    <SelectItem value="ready">Listos</SelectItem>
+                    <SelectItem value="workshop">Taller</SelectItem>
+                    <SelectItem value="partial">Parcial</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select value={componentFilter} onValueChange={setComponentFilter}>
+                  <SelectTrigger className="h-9">
+                    <SelectValue placeholder="Componente" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todos</SelectItem>
+                    {componentNames.map(comp => (
+                      <SelectItem key={comp} value={comp}>{comp}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </CardContent>
@@ -385,53 +371,55 @@ export default function Home() {
         <Card>
           <CardContent className="p-0">
             {isLoading ? (
-              <div className="flex items-center justify-center h-32">
+              <div className="flex items-center justify-center h-20">
                 <div className="text-center">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
-                  <p className="text-gray-500">Cargando unidades...</p>
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto mb-2"></div>
+                  <p className="text-gray-500 text-sm">Cargando...</p>
                 </div>
               </div>
             ) : filteredUnits.length === 0 ? (
-              <div className="text-center p-8">
-                <Bus className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                <h4 className="text-lg font-medium text-gray-500 mb-2">No hay unidades registradas</h4>
-                <p className="text-gray-400">Agregue una nueva unidad para comenzar el seguimiento de mantenimiento.</p>
+              <div className="text-center p-6">
+                <Bus className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                <h4 className="text-base font-medium text-gray-500 mb-1">No hay unidades</h4>
+                <p className="text-gray-400 text-sm">Agregue una nueva unidad</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-gray-700">
-                      <TableHead className="text-white text-center font-semibold">
-                        <Bus className="h-4 w-4 inline mr-1" />
-                        Autobús
+                      <TableHead className="text-white text-center font-semibold py-2 px-1 sm:px-3 text-xs sm:text-sm">
+                        <Bus className="h-3 w-3 sm:h-4 sm:w-4 inline mr-1" />
+                        <span className="hidden sm:inline">Autobús</span>
+                        <span className="sm:hidden">Bus</span>
                       </TableHead>
                       {componentNames.map(comp => (
-                        <TableHead key={comp} className="text-white text-center font-semibold min-w-[80px]" title={componentTitles[comp]}>
+                        <TableHead key={comp} className="text-white text-center font-semibold min-w-[50px] sm:min-w-[70px] py-2 px-1 text-xs sm:text-sm" title={componentTitles[comp]}>
                           {comp}
                         </TableHead>
                       ))}
-                      <TableHead className="text-white text-center font-semibold">
-                        Acciones
+                      <TableHead className="text-white text-center font-semibold py-2 px-1 text-xs sm:text-sm w-12 sm:w-16">
+                        <span className="hidden sm:inline">Acción</span>
+                        <span className="sm:hidden">Del</span>
                       </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredUnits.map((unit) => (
                       <TableRow key={unit.id} className="hover:bg-slate-50">
-                        <TableCell className="text-center font-bold text-lg text-gray-700">
+                        <TableCell className="text-center font-bold text-sm sm:text-lg text-gray-700 py-2 px-1 sm:px-3">
                           {unit.unitNumber}
                         </TableCell>
                         {componentNames.map(comp => {
                           const status = unit[comp as keyof BusUnit] as string;
                           const isReady = status === "listo";
                           return (
-                            <TableCell key={comp} className="text-center p-2">
+                            <TableCell key={comp} className="text-center p-1 sm:p-2">
                               <button
                                 onClick={() => handleToggleStatus(unit, comp)}
                                 disabled={toggleStatusMutation.isPending}
                                 className={`
-                                  px-3 py-2 rounded-md text-xs font-medium uppercase transition-all duration-300 hover:scale-105
+                                  px-2 py-1 sm:px-3 sm:py-2 rounded text-xs font-medium uppercase transition-all duration-300 hover:scale-105 w-full min-w-[45px] sm:min-w-[60px]
                                   ${isReady 
                                     ? "bg-green-600 text-white hover:bg-green-700" 
                                     : "bg-red-600 text-white hover:bg-red-700"
@@ -444,31 +432,40 @@ export default function Home() {
                             </TableCell>
                           );
                         })}
-                        <TableCell className="text-center">
-                          <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                              <Button variant="outline" size="sm" className="text-gray-600 hover:bg-red-50 hover:text-red-600">
-                                <Trash2 className="h-4 w-4" />
+                        <TableCell className="text-center py-2 px-1">
+                          {(() => {
+                            const allReady = componentNames.every(comp => unit[comp as keyof BusUnit] === "listo");
+                            return allReady ? (
+                              <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                  <Button variant="outline" size="sm" className="text-green-600 hover:bg-green-50 hover:text-green-700 border-green-200 h-7 w-7 sm:h-8 sm:w-8 p-0">
+                                    <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
+                                  </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                  <AlertDialogHeader>
+                                    <AlertDialogTitle>Confirmar Eliminación</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                      ¿Está seguro de que desea eliminar la unidad {unit.unitNumber}? Esta acción no se puede deshacer.
+                                    </AlertDialogDescription>
+                                  </AlertDialogHeader>
+                                  <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                    <AlertDialogAction 
+                                      onClick={() => deleteUnitMutation.mutate(unit.id)}
+                                      className="bg-red-600 hover:bg-red-700"
+                                    >
+                                      Eliminar
+                                    </AlertDialogAction>
+                                  </AlertDialogFooter>
+                                </AlertDialogContent>
+                              </AlertDialog>
+                            ) : (
+                              <Button variant="outline" size="sm" disabled className="text-gray-300 cursor-not-allowed h-7 w-7 sm:h-8 sm:w-8 p-0">
+                                <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                               </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>Confirmar Eliminación</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  ¿Está seguro de que desea eliminar la unidad {unit.unitNumber}? Esta acción no se puede deshacer.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                                <AlertDialogAction 
-                                  onClick={() => deleteUnitMutation.mutate(unit.id)}
-                                  className="bg-red-600 hover:bg-red-700"
-                                >
-                                  Eliminar
-                                </AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
+                            );
+                          })()}
                         </TableCell>
                       </TableRow>
                     ))}
